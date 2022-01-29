@@ -1,0 +1,17 @@
+{
+  "name": "scheduler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "tsc --target ES5 --experimentalDecorators"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "node-cron": "^3.0.0"
+  }
+}
