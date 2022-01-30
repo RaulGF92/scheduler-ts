@@ -1,7 +1,7 @@
-import { Void } from "../src/annotations";
+import { Void } from "../../src/annotations";
 import {default as sinon} from 'ts-sinon';
-import SchedulerFactory from "../src/factory/SchedulerFactory";
-import { ScheduledExecution } from "../src";
+import SchedulerFactory from "../../src/factory/SchedulerFactory";
+import { ScheduledExecution } from "../../src";
 
 const sandbox = sinon.createSandbox();
 

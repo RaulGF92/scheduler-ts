@@ -1,5 +1,5 @@
-import { annotationsType, ScheduledConfig, ScheduledExecution } from "../../src";
-import ScheduleStatic from "../../src/factory/static/ScheduleStatic";
+import { annotationsType, ScheduledConfig, ScheduledExecution } from "../../../src";
+import ScheduleStatic from "../../../src/factory/static/ScheduleStatic";
 
 test('it should invoke a static method', async () => {
     const config = {

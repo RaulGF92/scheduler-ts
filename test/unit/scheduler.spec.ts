@@ -1,5 +1,5 @@
-import Scheduler from "../src/Scheduler";
-import { Schedule } from "../src/types";
+import Scheduler from "../../src/Scheduler";
+import { Schedule } from "../../src/types";
 
 test('scheduler must be an singleton pattern', () => {
     const instance1 = Scheduler.instance();
