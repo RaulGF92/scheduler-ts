@@ -23,6 +23,24 @@ export default class Scheduler {
         return this.instance().add(schedule);
     }
 
+    static start(name: string) {
+        const instance = this.instance();
+        const schedule = instance.get(name);
+        
+        if(schedule) {
+            schedule.start();
+        }
+    }
+
+    static stop(name: string) {
+        const instance = this.instance();
+        const schedule = instance.get(name);
+        
+        if(schedule) {
+            schedule.stop();
+        }
+    }
+
     static get(name: string) {
         return this.instance().get(name);
     }
