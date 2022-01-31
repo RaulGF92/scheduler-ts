@@ -1,4 +1,4 @@
-import { annotationsType, ScheduledConfig, ScheduledExecution } from "../..";
+import { annotationsType, ScheduledCronConfig, ScheduledExecution } from "../..";
 import ScheduleStatic from "./ScheduleStatic";
 import cron from 'node-cron';
 
@@ -12,7 +12,7 @@ export default class ScheduleStaticCron extends ScheduleStatic {
         (execution: ScheduledExecution) => void
       >;
     },
-    readonly config: ScheduledConfig
+    readonly config: ScheduledCronConfig
   ) {
     super(annotationsType.CRON, functionMetadata, config);
 

@@ -1,5 +1,6 @@
-import { annotationsType, Schedule, ScheduledConfig } from "..";
+import { annotationsType, Schedule, ScheduledConfig, ScheduledCronConfig, ScheduleIntervalConfig } from "..";
 import ScheduleStaticCron from "./static/ScheduleStaticCron";
+import ScheduleStaticInterval from "./static/ScheduleStaticInterval";
 import ScheduleStaticVoid from "./static/ScheduleStaticVoid";
 
 export default class SchedulerFactory {
@@ -10,9 +11,11 @@ export default class SchedulerFactory {
   ): Schedule {
     switch(type) {
       case annotationsType.CRON:
-        return new ScheduleStaticCron(functionMetadata, config);
+        return new ScheduleStaticCron(functionMetadata, <ScheduledCronConfig> config);
+      case annotationsType.INTERVAL:
+        return new ScheduleStaticInterval(functionMetadata, <ScheduleIntervalConfig> config);
       case annotationsType.VOID:
-        return new ScheduleStaticVoid(functionMetadata, config);
+        return new ScheduleStaticVoid(functionMetadata, <ScheduledCronConfig> config);
       default:
         throw new Error("Factory error type scheduled not implemented");
     }

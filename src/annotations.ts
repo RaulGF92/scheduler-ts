@@ -1,28 +1,24 @@
-import { annotationsType, ScheduledConfig, ScheduledExecution } from "./types";
+import {
+  annotationsType,
+  ScheduledConfig,
+  ScheduledExecution,
+  ScheduleIntervalConfig,
+} from "./types";
 import Utils from "./Utils";
 import { v4 as uuidv4 } from "uuid";
 import SchedulerFactory from "./factory/SchedulerFactory";
 import Scheduler from "./Scheduler";
+import { ScheduledCronConfig } from ".";
 
-const extractConfig = (config: string | ScheduledConfig) => {
+const loadAndCheckDefaultOptions = <T extends ScheduledConfig>(
+  config: T
+): T => {
   let targetName = uuidv4().toString();
-  if (!(typeof config === "string")) {
-    config.name = config.name || targetName;
-  } else {
-    const targetCron = <string>config;
-    config = <ScheduledConfig>{
-      name: targetName,
-      cron: targetCron,
-    };
-  }
-
-  if (!Utils.isCron(config.cron))
-    throw Error(`${config.cron} Doesn't follow cron statements`);
-
+  config.name = config.name || targetName;
   return config;
 };
 
-const handleStaticFunction = (
+const handleStaticFunction = <T extends ScheduledConfig>(
   type: annotationsType,
   functionMetadata: {
     target: any;
@@ -31,12 +27,12 @@ const handleStaticFunction = (
       | TypedPropertyDescriptor<(execution: ScheduledExecution) => void>
       | TypedPropertyDescriptor<(execution: ScheduledExecution) => void>;
   },
-  config: ScheduledConfig
+  config: T
 ) => {
   const schedule = SchedulerFactory.getStaticSchedule(
     type,
     functionMetadata,
-    <ScheduledConfig>config
+    config
   );
   Scheduler.add(schedule);
   Scheduler.start(<string>schedule.config.name);
@@ -54,9 +50,9 @@ const handleNonStaticFunction = (
   _config: ScheduledConfig
 ) => {};
 
-const createNewScheduleAnnotation = (
+const createNewScheduleAnnotation = <T extends ScheduledConfig>(
   type: annotationsType,
-  configValid: ScheduledConfig,
+  configValid: T,
   target: any,
   propertyKey: string,
   descriptor: TypedPropertyDescriptor<(execution: ScheduledExecution) => void>
@@ -73,7 +69,7 @@ const createNewScheduleAnnotation = (
     !Object.getOwnPropertyNames(target).includes("constructor");
 
   if (isNonAInstanceClass) {
-    handleStaticFunction(type, functionMetadata, <ScheduledConfig>configValid);
+    handleStaticFunction(type, functionMetadata, configValid);
   } else {
     handleNonStaticFunction(
       type,
@@ -83,39 +79,73 @@ const createNewScheduleAnnotation = (
   }
 };
 
+export function Cron(config: string | ScheduledCronConfig) {
+  const type = annotationsType.CRON;
+  let configOutput =
+    typeof config === "string" ? <ScheduledCronConfig>{ cron: config } : config;
 
-export function Cron(config: string | ScheduledConfig) {
-    const type = annotationsType.CRON;
-    const configValid: ScheduledConfig = extractConfig(config);
-  
-    return (
-      target: any,
-      propertyKey: string,
-      descriptor: TypedPropertyDescriptor<(execution: ScheduledExecution) => void>
-    ) =>
-      createNewScheduleAnnotation(
-        type,
-        configValid,
-        target,
-        propertyKey,
-        descriptor
-      );
-  }
+  configOutput = loadAndCheckDefaultOptions(configOutput);
 
-  export function Void(config: string | ScheduledConfig) {
-    const type = annotationsType.VOID;
-    const configValid: ScheduledConfig = extractConfig(config);
-  
-    return (
-      target: any,
-      propertyKey: string,
-      descriptor: TypedPropertyDescriptor<(execution: ScheduledExecution) => void>
-    ) =>
-      createNewScheduleAnnotation(
-        type,
-        configValid,
-        target,
-        propertyKey,
-        descriptor
-      );
-  }
+  if (!Utils.isCron(configOutput.cron))
+    throw Error(`${configOutput.cron} Doesn't follow cron statements`);
+  return (
+    target: any,
+    propertyKey: string,
+    descriptor: TypedPropertyDescriptor<(execution: ScheduledExecution) => void>
+  ) =>
+    createNewScheduleAnnotation(
+      type,
+      configOutput,
+      target,
+      propertyKey,
+      descriptor
+    );
+}
+
+export function Interval(config: number | ScheduleIntervalConfig) {
+  const type = annotationsType.INTERVAL;
+  let configOutput =
+    typeof config === "number"
+      ? <ScheduleIntervalConfig>{ interval: config }
+      : config;
+
+  configOutput = loadAndCheckDefaultOptions(configOutput);
+  configOutput.interval = Number(configOutput.interval);
+
+  return (
+    target: any,
+    propertyKey: string,
+    descriptor: TypedPropertyDescriptor<(execution: ScheduledExecution) => void>
+  ) =>
+    createNewScheduleAnnotation(
+      type,
+      configOutput,
+      target,
+      propertyKey,
+      descriptor
+    );
+}
+
+export function Void(config: string | ScheduledCronConfig) {
+  const type = annotationsType.VOID;
+  let configOutput =
+    typeof config === "string" ? <ScheduledCronConfig>{ cron: config } : config;
+
+  configOutput = loadAndCheckDefaultOptions(configOutput);
+
+  if (!Utils.isCron(configOutput.cron))
+    throw Error(`${configOutput.cron} Doesn't follow cron statements`);
+
+  return (
+    target: any,
+    propertyKey: string,
+    descriptor: TypedPropertyDescriptor<(execution: ScheduledExecution) => void>
+  ) =>
+    createNewScheduleAnnotation(
+      type,
+      configOutput,
+      target,
+      propertyKey,
+      descriptor
+    );
+}
