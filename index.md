@@ -1,12 +1,13 @@
-### Objective
+> The objective of scheduler in has the control of all internal jobs of a application and control the flow of application in an unique class.
 
-The objective of scheduler in has the control of all internal jobs of a application and control the flow of application in an unique class.
+### Menu
+[Scheduler](scheduler/index.md) | Cron | Interval
 
-## Features
+# Features
 - Execute static job function
 - Handle jobs in central function
 
-## Installation
+# Installation
 
 Using npm:
 
@@ -14,7 +15,7 @@ Using npm:
 npm install @raulgf92/scheduler-ts
 ```
 
-## Usage
+# Usage
 You will need to import your class in your index.ts or in a subclass
 
 ```Typescript
@@ -35,7 +36,7 @@ app()
 ```
 Then you could implement your Jobs in different ways:
 
-### Static Way
+## Static Way
 
 You can put a decorator in any **static** function and this function will be invoked each time
 
@@ -57,53 +58,14 @@ export default class Jobs {
     
 }
 ```
-output
+
+Then turn on the magic!!
+
 ```bash
+PS C:\Users\raulg\test> node .  
 Application bootstraping
 Hello
 Hola
 Hello
 Application end
-```
-
-### Scheduler - the main object
-
-Scheduler is a main class where you could setting the whole jobs in here you could start all, stop all, stop one task....
-
-- Stop all jobs of app
-
-```Typescript
-import Scheduler from 'scheduler-ts'; // Singleton instance you could invoker what ever you want!!
-
-Scheduler.stopAll();
-```
-- Stop all jobs of app
-
-```Typescript
-import Scheduler from 'scheduler-ts'; // Singleton instance you could invoker what ever you want!!
-
-Scheduler.startAll();
-```
-
-- Retreive all jobs of app
-
-```Typescript
-import Scheduler from 'scheduler-ts'; // Singleton instance you could invoker what ever you want!!
-
-Scheduler.getAll();
-```
-- Remove all jobs of app
-
-```Typescript
-import Scheduler from 'scheduler-ts'; // Singleton instance you could invoker what ever you want!!
-
-Scheduler.removeAll();
-```
-All apply same actions to specific job by name
-```Typescript
-import Scheduler from 'scheduler-ts'; // Singleton instance you could invoker what ever you want!!
-
-Scheduler.start('my-job');
-Scheduler.stop('my-job');
-Scheduler.get('my-job'); // ...
 ```
