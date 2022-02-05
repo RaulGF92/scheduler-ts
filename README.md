@@ -6,6 +6,15 @@
 
 The objective of scheduler in has the control of all internal jobs of a application and control the flow of application in an unique class.
 
+## Features
+- Execute static job function
+- Handle jobs in central function
+
+## Future Features
+- Execute instanciate variable job function
+- Create documentation page
+- More utilities in Scheduler and Decorators
+
 ## Installation
 
 Using npm:
