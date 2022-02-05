@@ -1,21 +1,21 @@
 import { Schedule } from "./";
 
 export default class Scheduler {
-    items: Map<String, Schedule> = new Map();
+    items: Record<string, Schedule> = {};
     static singleton: Scheduler | null = null;
     private constructor() {}
 
     add(item: Schedule) {
-        if(item.config.name && this.items.has(<string> item.config.name)) {
+        if(item.config.name && this.items[<string> item.config.name]) {
             throw new Error(`Name ${item.config.name} is not unique please create a unique name or left the name by default`);
         }
-        this.items.set(<string> item.config.name, item);
+        this.items[<string> item.config.name] =  item;
 
         return item;
     }
 
     get(name: string) {
-        return this.items.get(name);
+        return  this.items[name]
     }
 
     // API - STATIC
@@ -39,6 +39,12 @@ export default class Scheduler {
         if(schedule) {
             schedule.stop();
         }
+    }
+
+    static stopAll() {
+        const instance = this.instance();
+        Object.values(instance.items)
+            .forEach(item => item.stop());
     }
 
     static get(name: string) {

@@ -18,17 +18,17 @@ const loadAndCheckDefaultOptions = <T extends ScheduledConfig>(
   return config;
 };
 
-const handleStaticFunction = <T extends ScheduledConfig>(
+const handleStaticFunction = function(
   type: annotationsType,
   functionMetadata: {
     target: any;
     propertyKey: string;
-    descriptor:
-      | TypedPropertyDescriptor<(execution: ScheduledExecution) => void>
-      | TypedPropertyDescriptor<(execution: ScheduledExecution) => void>;
+    descriptor: TypedPropertyDescriptor<
+      (execution: ScheduledExecution) => void
+    >;
   },
-  config: T
-) => {
+  config: ScheduledConfig
+) {
   const schedule = SchedulerFactory.getStaticSchedule(
     type,
     functionMetadata,
@@ -43,20 +43,20 @@ const handleNonStaticFunction = (
   _functionMetadata: {
     target: any;
     propertyKey: string;
-    descriptor:
-      | TypedPropertyDescriptor<(execution: ScheduledExecution) => void>
-      | TypedPropertyDescriptor<(execution: ScheduledExecution) => void>;
+    descriptor: TypedPropertyDescriptor<
+      (execution: ScheduledExecution) => void
+    >;
   },
   _config: ScheduledConfig
 ) => {};
 
-const createNewScheduleAnnotation = <T extends ScheduledConfig>(
+const createNewScheduleAnnotation = function(
   type: annotationsType,
-  configValid: T,
+  configValid: ScheduledConfig,
   target: any,
   propertyKey: string,
   descriptor: TypedPropertyDescriptor<(execution: ScheduledExecution) => void>
-) => {
+) {
   const functionMetadata = { target, propertyKey, descriptor };
 
   /*
@@ -71,15 +71,12 @@ const createNewScheduleAnnotation = <T extends ScheduledConfig>(
   if (isNonAInstanceClass) {
     handleStaticFunction(type, functionMetadata, configValid);
   } else {
-    handleNonStaticFunction(
-      type,
-      functionMetadata,
-      <ScheduledConfig>configValid
-    );
+    handleNonStaticFunction(type, functionMetadata, configValid);
   }
 };
 
 export function Cron(config: string | ScheduledCronConfig) {
+  console.log("Entra");
   const type = annotationsType.CRON;
   let configOutput =
     typeof config === "string" ? <ScheduledCronConfig>{ cron: config } : config;
@@ -88,11 +85,12 @@ export function Cron(config: string | ScheduledCronConfig) {
 
   if (!Utils.isCron(configOutput.cron))
     throw Error(`${configOutput.cron} Doesn't follow cron statements`);
-  return (
+
+  return function (
     target: any,
     propertyKey: string,
     descriptor: TypedPropertyDescriptor<(execution: ScheduledExecution) => void>
-  ) =>
+  ) {
     createNewScheduleAnnotation(
       type,
       configOutput,
@@ -100,9 +98,11 @@ export function Cron(config: string | ScheduledCronConfig) {
       propertyKey,
       descriptor
     );
+  };
 }
 
 export function Interval(config: number | ScheduleIntervalConfig) {
+  console.log("Entra");
   const type = annotationsType.INTERVAL;
   let configOutput =
     typeof config === "number"
@@ -112,11 +112,11 @@ export function Interval(config: number | ScheduleIntervalConfig) {
   configOutput = loadAndCheckDefaultOptions(configOutput);
   configOutput.interval = Number(configOutput.interval);
 
-  return (
+  return function (
     target: any,
     propertyKey: string,
     descriptor: TypedPropertyDescriptor<(execution: ScheduledExecution) => void>
-  ) =>
+  ) {
     createNewScheduleAnnotation(
       type,
       configOutput,
@@ -124,6 +124,7 @@ export function Interval(config: number | ScheduleIntervalConfig) {
       propertyKey,
       descriptor
     );
+  };
 }
 
 export function Void(config: string | ScheduledCronConfig) {
@@ -136,16 +137,17 @@ export function Void(config: string | ScheduledCronConfig) {
   if (!Utils.isCron(configOutput.cron))
     throw Error(`${configOutput.cron} Doesn't follow cron statements`);
 
-  return (
+  return function (
     target: any,
     propertyKey: string,
     descriptor: TypedPropertyDescriptor<(execution: ScheduledExecution) => void>
-  ) =>
-    createNewScheduleAnnotation(
+  ) {
+    return createNewScheduleAnnotation(
       type,
       configOutput,
       target,
       propertyKey,
       descriptor
     );
+  };
 }

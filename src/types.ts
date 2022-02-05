@@ -31,7 +31,8 @@ export interface ScheduleIntervalConfig extends ScheduledConfig {
 export interface ScheduledExecution {
   name: string;
   startDate: Date;
-  cron: string;
+  cron?: string;
+  interval?: number;
 }
 
 export interface Schedule {

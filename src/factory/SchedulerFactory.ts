@@ -1,4 +1,5 @@
-import { annotationsType, Schedule, ScheduledConfig, ScheduledCronConfig, ScheduleIntervalConfig } from "..";
+
+import { annotationsType, Schedule, ScheduledConfig, ScheduledCronConfig, ScheduleIntervalConfig } from "../types";
 import ScheduleStaticCron from "./static/ScheduleStaticCron";
 import ScheduleStaticInterval from "./static/ScheduleStaticInterval";
 import ScheduleStaticVoid from "./static/ScheduleStaticVoid";

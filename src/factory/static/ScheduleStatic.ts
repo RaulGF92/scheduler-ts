@@ -19,13 +19,12 @@ export default abstract class ScheduleStatic implements Schedule {
   ) {}
 
   buildScheduledExecution(): ScheduledExecution {
-    return <ScheduledExecution>{
+    return this.fillExecutionInfo(<ScheduledExecution>{
       startDate: new Date(),
-      cron: this.config.cron,
       name: this.config.name,
       type: this.type,
       invokationType: this.invokationType
-    };
+    });
   }
 
   async executeFunction(): Promise<void> {
@@ -40,6 +39,7 @@ export default abstract class ScheduleStatic implements Schedule {
     }
   }
 
+  abstract fillExecutionInfo(executionInfo: ScheduledExecution):ScheduledExecution;
   abstract start(): Promise<void>;
   abstract stop(): Promise<void>;
 }

@@ -1,4 +1,4 @@
-import { annotationsType, ScheduledConfig, ScheduledExecution } from "../..";
+import { annotationsType, ScheduledConfig, ScheduledExecution } from "../../types";
 import ScheduleStatic from "./ScheduleStatic";
 
 export default class ScheduleStaticVoid extends ScheduleStatic {
@@ -13,6 +13,10 @@ export default class ScheduleStaticVoid extends ScheduleStatic {
     readonly config: ScheduledConfig
   ) {
     super(annotationsType.VOID, functionMetadata, config);
+  }
+  
+  fillExecutionInfo(executionInfo: ScheduledExecution): ScheduledExecution {
+    return executionInfo;
   }
 
   async start(): Promise<void> {

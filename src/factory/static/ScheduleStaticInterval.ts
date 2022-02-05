@@ -1,4 +1,5 @@
-import { annotationsType, ScheduleIntervalConfig, ScheduledExecution } from "../..";
+
+import { annotationsType, ScheduledExecution, ScheduleIntervalConfig } from "../../types";
 import ScheduleStatic from "./ScheduleStatic";
 
 export default class ScheduleStaticInterval extends ScheduleStatic {
@@ -15,6 +16,11 @@ export default class ScheduleStaticInterval extends ScheduleStatic {
       readonly config: ScheduleIntervalConfig
     ) {
       super(annotationsType.INTERVAL, functionMetadata, config);
+    }
+
+    fillExecutionInfo(executionInfo: ScheduledExecution): ScheduledExecution {
+      executionInfo.interval = this.config.interval;
+      return executionInfo;
     }
   
     async start(): Promise<void> {

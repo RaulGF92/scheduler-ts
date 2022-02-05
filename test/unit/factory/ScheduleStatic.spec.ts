@@ -17,6 +17,7 @@ test('it should invoke a static method', async () => {
 
     class UselessScheduleStatic extends ScheduleStatic {
 
+
         constructor(
             readonly functionMetadata: {
               target: any;
@@ -35,6 +36,12 @@ test('it should invoke a static method', async () => {
         }
         stop(): Promise<void> {
             throw new Error("Method not implemented.");
+        }
+
+        fillExecutionInfo(executionInfo: ScheduledExecution): ScheduledExecution {
+            return Object.assign({
+                cron: 'cron'
+            },executionInfo);
         }
 
     }
