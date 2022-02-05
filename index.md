@@ -2,7 +2,9 @@
 title: Scheduler TypeScript
 description: Agnostic Framework Scheduler library for Typescript
 ---
-[Scheduler](scheduler/index.md) | Cron | Interval
+[Scheduler](../scheduler/index.md) | [@Cron](../annotations/cron/index.md) | [@Interval](../annotations/interval/index.md)
+&nbsp;
+&nbsp;
 &nbsp;
 &nbsp;
 > The objective of scheduler in has the control of all internal jobs of a application and control the flow of application in an unique class.
