@@ -2,7 +2,7 @@
 title: Scheduler TypeScript
 description: Agnostic Framework Scheduler library for Typescript
 ---
-[Home](../index.md) | [Scheduler](../scheduler/index.md) | [@Interval](../annotations/Interval/index.md) | **@Interval**
+[Home](../../index.md) | [Scheduler](../../scheduler/index.md) | [@Interval](../../annotations/Interval/index.md) | **@Interval**
 &nbsp;
 &nbsp;
 &nbsp;
