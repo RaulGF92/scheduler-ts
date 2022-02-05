@@ -9,14 +9,14 @@ description: Agnostic Framework Scheduler library for Typescript
 
 Scheduler is a main class where you could setting the whole jobs in here you could start all, stop all, stop one task....
 
-# [#](#stopalljobs) Stop all jobs of app []{#stopalljobs}
+# [#](#stop-all-jobs) Stop all jobs of app
 
 ```Typescript
 import Scheduler from 'scheduler-ts'; // Singleton instance you could invoker what ever you want!!
 
 Scheduler.stopAll();
 ```
-# [#](#startalljobs) Start all jobs of app
+# [#](#start-all-jobs) Start all jobs of app
 
 ```Typescript
 import Scheduler from 'scheduler-ts'; // Singleton instance you could invoker what ever you want!!
@@ -24,21 +24,21 @@ import Scheduler from 'scheduler-ts'; // Singleton instance you could invoker wh
 Scheduler.startAll();
 ```
 
-# [#](#retrievealljobs) Retreive all jobs of app
+# [#](#retrieve-all-jobs-of-app) Retreive all jobs of app
 
 ```Typescript
 import Scheduler from 'scheduler-ts'; // Singleton instance you could invoker what ever you want!!
 
 Scheduler.getAll();
 ```
-# [#](#removealljobs) Remove all jobs of app
+# [#](#remove-all-jobs-of-app) Remove all jobs of app
 
 ```Typescript
 import Scheduler from 'scheduler-ts'; // Singleton instance you could invoker what ever you want!!
 
 Scheduler.removeAll();
 ```
-# [#](#applyspecificjobs) All apply same actions to specific job by name
+# [#](#all-apply-same-actions-to-specific-job-by-name) All apply same actions to specific job by name
 
 ```Typescript
 import Scheduler from 'scheduler-ts'; // Singleton instance you could invoker what ever you want!!
