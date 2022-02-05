@@ -61,6 +61,8 @@ This is a quick reference to cron syntax and also shows the options supported by
 |     month    |     1-12 (or names) |
 |  day of week |     0-7 (or names, 0 or 7 are sunday)  |
 
+&nbsp;
+&nbsp;
 
 # Scheduler Cron Options
 
