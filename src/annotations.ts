@@ -76,7 +76,6 @@ const createNewScheduleAnnotation = function(
 };
 
 export function Cron(config: string | ScheduledCronConfig) {
-  console.log("Entra");
   const type = annotationsType.CRON;
   let configOutput =
     typeof config === "string" ? <ScheduledCronConfig>{ cron: config } : config;
@@ -102,7 +101,6 @@ export function Cron(config: string | ScheduledCronConfig) {
 }
 
 export function Interval(config: number | ScheduleIntervalConfig) {
-  console.log("Entra");
   const type = annotationsType.INTERVAL;
   let configOutput =
     typeof config === "number"
