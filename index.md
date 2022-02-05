@@ -1,7 +1,3 @@
-# Scheduler Typescript
-
-> Agnostic Framework scheduler for Typescript using decorators
-
 ### Objective
 
 The objective of scheduler in has the control of all internal jobs of a application and control the flow of application in an unique class.
@@ -9,11 +5,6 @@ The objective of scheduler in has the control of all internal jobs of a applicat
 ## Features
 - Execute static job function
 - Handle jobs in central function
-
-## Future Features
-- Execute instanciate variable job function
-- Create documentation page
-- More utilities in Scheduler and Decorators
 
 ## Installation
 
