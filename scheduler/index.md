@@ -3,8 +3,8 @@ title: Scheduler TypeScript
 description: Agnostic Framework Scheduler library for Typescript
 ---
 [Home](../index.md) | **Scheduler** | Cron | Interval
-
-
+&nbsp;
+&nbsp;
 # Scheduler - the main object
 
 Scheduler is a main class where you could setting the whole jobs in here you could start all, stop all, stop one task....
