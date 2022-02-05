@@ -1,6 +1,8 @@
+---
+title: Scheduler TypeScript
+description: Agnostic Framework Scheduler library for Typescript
+---
 > The objective of scheduler in has the control of all internal jobs of a application and control the flow of application in an unique class.
-
-### Menu
 [Scheduler](scheduler/index.md) | Cron | Interval
 
 # Features

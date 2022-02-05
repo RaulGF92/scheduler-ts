@@ -16,7 +16,7 @@ import Scheduler from 'scheduler-ts'; // Singleton instance you could invoker wh
 
 Scheduler.stopAll();
 ```
-# [#]{#startalljobs} Start all jobs of app
+# [#](#startalljobs) Start all jobs of app
 
 ```Typescript
 import Scheduler from 'scheduler-ts'; // Singleton instance you could invoker what ever you want!!
@@ -24,21 +24,21 @@ import Scheduler from 'scheduler-ts'; // Singleton instance you could invoker wh
 Scheduler.startAll();
 ```
 
-# [#]{#retrievealljobs} Retreive all jobs of app
+# [#](#retrievealljobs) Retreive all jobs of app
 
 ```Typescript
 import Scheduler from 'scheduler-ts'; // Singleton instance you could invoker what ever you want!!
 
 Scheduler.getAll();
 ```
-# [#]{#removealljobs} Remove all jobs of app
+# [#](#removealljobs) Remove all jobs of app
 
 ```Typescript
 import Scheduler from 'scheduler-ts'; // Singleton instance you could invoker what ever you want!!
 
 Scheduler.removeAll();
 ```
-# [#]{#applyspecificjobs} All apply same actions to specific job by name
+# [#](#applyspecificjobs) All apply same actions to specific job by name
 
 ```Typescript
 import Scheduler from 'scheduler-ts'; // Singleton instance you could invoker what ever you want!!
