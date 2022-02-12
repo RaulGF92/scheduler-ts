@@ -3,8 +3,20 @@ import { annotationsType, Schedule, ScheduledConfig, ScheduledCronConfig, Schedu
 import ScheduleStaticCron from "./static/ScheduleStaticCron";
 import ScheduleStaticInterval from "./static/ScheduleStaticInterval";
 import ScheduleStaticVoid from "./static/ScheduleStaticVoid";
+import EventEmiter from 'events';
 
+class SchedulerEmitter extends EventEmiter {
+  constructor() {
+    super();
+  }
+}
+
+const emitter = new SchedulerEmitter();
 export default class SchedulerFactory {
+  static getVariableSchedule(_type: annotationsType) {
+    console.log(emitter);
+  }
+
   static getStaticSchedule(
     type: annotationsType, 
     functionMetadata: Schedule["functionMetadata"],
@@ -20,6 +32,5 @@ export default class SchedulerFactory {
       default:
         throw new Error("Factory error type scheduled not implemented");
     }
-      
   }
 }

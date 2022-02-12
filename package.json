@@ -13,7 +13,8 @@
   "scripts": {
     "test": "jest",
     "build": "tsc",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix"
   },
   "author": "",
   "license": "ISC",
@@ -26,10 +27,26 @@
   },
   "dependencies": {
     "@types/node-cron": "^3.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.11.0",
+    "@typescript-eslint/parser": "^5.11.0",
+    "eslint": "^8.9.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "node-cron": "^3.0.0",
+    "prettier": "^2.5.1",
     "sinon": "^13.0.0",
     "ts-sinon": "^2.0.2",
     "typescript-is": "^0.19.0",
     "uuid": "^8.3.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --fix"
+    ]
   }
 }

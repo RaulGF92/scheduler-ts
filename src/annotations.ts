@@ -10,6 +10,9 @@ import SchedulerFactory from "./factory/SchedulerFactory";
 import Scheduler from "./Scheduler";
 import { ScheduledCronConfig } from ".";
 
+export const SCHEDULES_METADATA_KEY = "__schedulers__";
+export const DECORATORS_METADATA_KEY = "__decorators__";
+
 const loadAndCheckDefaultOptions = <T extends ScheduledConfig>(
   config: T
 ): T => {
@@ -39,16 +42,33 @@ const handleStaticFunction = function(
 };
 
 const handleNonStaticFunction = (
-  _type: annotationsType,
-  _functionMetadata: {
+  type: annotationsType,
+  functionMetadata: {
     target: any;
     propertyKey: string;
     descriptor: TypedPropertyDescriptor<
       (execution: ScheduledExecution) => void
     >;
   },
-  _config: ScheduledConfig
-) => {};
+  config: ScheduledConfig
+) => {
+  let decorators: Record<string, string[]> = Reflect.get(functionMetadata.target, SCHEDULES_METADATA_KEY) || {};
+  let schedules: Record<string,  Record<string, any>> = Reflect.get(functionMetadata.target, DECORATORS_METADATA_KEY) || {};
+  
+  if(!decorators[functionMetadata.propertyKey]) {
+    decorators[functionMetadata.propertyKey] = [];
+  }
+
+  if(!schedules[functionMetadata.propertyKey]) {
+    schedules[functionMetadata.propertyKey] = {};
+  }
+
+  decorators[functionMetadata.propertyKey].push(type.toString());
+  schedules[functionMetadata.propertyKey][type.toString()] = { name: type.toString(), config };
+
+  Reflect.set(functionMetadata.target, SCHEDULES_METADATA_KEY, schedules);
+  Reflect.set(functionMetadata.target, DECORATORS_METADATA_KEY, decorators);
+};
 
 const createNewScheduleAnnotation = function(
   type: annotationsType,
@@ -74,6 +94,8 @@ const createNewScheduleAnnotation = function(
     handleNonStaticFunction(type, functionMetadata, configValid);
   }
 };
+
+// Annotations
 
 export function Cron(config: string | ScheduledCronConfig) {
   const type = annotationsType.CRON;

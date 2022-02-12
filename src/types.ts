@@ -4,10 +4,10 @@ export enum invokationType {
 }
 
 export enum annotationsType {
-  CRON,
-  INTERVAL,
-  TIMEOUT,
-  VOID,
+  CRON = "CRON",
+  INTERVAL = "INTERVAL",
+  TIMEOUT = "TIMEOUT",
+  VOID = "VOID",
 }
 
 export enum scheduleState {
