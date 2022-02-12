@@ -7,6 +7,13 @@
   "publishConfig": {
     "access": "public"
   },
+  "keywords": [
+    "scheduler",
+    "interval",
+    "cron",
+    "TypeScript",
+    "Decorators"
+  ],
   "files": [
     "/dist"
   ],
