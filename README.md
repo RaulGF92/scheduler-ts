@@ -104,7 +104,7 @@ Application end
 ### How us it with Dependency Injection?? Tsyringe? Nest.js?
 Like instance load the job any time a class instance is create with its decorator, we could use IoC for do that, **But we recomend it use Singleton pattern**
 
-- Tysringe:
+- **Tysringe**:
 
 ```Typescript
 import {Cron, Interval, ScheduledExecution, SchedulerInstance} from 'scheduler-ts';
@@ -127,7 +127,7 @@ export default class Jobs {
 }
 ```
 
-- Nest.js:
+- **Nest.js**:
 
 ```Typescript
 import {Cron, Interval, ScheduledExecution, SchedulerInstance} from 'scheduler-ts';
@@ -150,7 +150,7 @@ export default class Jobs {
 }
 ```
 
-- typedi: (All components are singletons)
+- **Typedi**: (All components are singletons)
 
 ```Typescript
 import {Cron, Interval, ScheduledExecution, SchedulerInstance} from 'scheduler-ts';
