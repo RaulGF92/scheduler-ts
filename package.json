@@ -1,15 +1,15 @@
 {
-  "name": "@raulgf92/scheduler-ts",
+  "name": "scheduler-ts",
   "version": "0.2.0-alpha.1",
-  "description": "",
+  "description": "Agnostic Framework scheduler for Typescript using decorators",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "/dist"
   ],
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
   "scripts": {
     "test": "jest",
     "build": "tsc",
