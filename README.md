@@ -20,7 +20,7 @@ The objective of scheduler in has the control of all internal jobs of a applicat
 Using npm:
 
 ```bash
-npm install schedule-ts
+npm install scheduler-ts
 ```
 
 ## Usage
@@ -32,6 +32,7 @@ import Jobs from './Jobs.ts'
 
 const sleep = (ms: number | undefined) => new Promise((resolve) => setTimeout(resolve, ms));
 const app =async function() {
+    const jobs = new Jobs(); // Only for non static jobs!!
     console.log('Application bootstraping');
     await sleep(1000 * 60 * 2);
     console.log('Application end');
@@ -66,6 +67,31 @@ export default class Jobs {
     
 }
 ```
+
+### Initilized Way
+
+> **WARNING!! Scheduler Instance is thrown it each time a Jobs instance is thrown it, if you could not control the initialization the jobs will be invoked X times of initialization has the target class**
+
+```Typescript
+// Jobs.ts
+import {Cron, Interval, ScheduledExecution, SchedulerInstance} from 'scheduler-ts';
+
+@SchedulerInstance()
+export default class Jobs {
+    
+    @Cron("1 * * * * *")
+    sayHello(_execution: ScheduledExecution) {
+        console.log("Hello");
+    }
+
+    @Interval(1000 * 60)
+    sayHola(_execution: ScheduledExecution) {
+        console.log("Hola");
+    }
+
+}
+```
+
 output
 ```bash
 Application bootstraping
@@ -73,6 +99,55 @@ Hello
 Hola
 Hello
 Application end
+```
+
+### How us it with Dependency Injection?? Tsyringe? Nest.js?
+Like instance load the job any time a class instance is create with its decorator, we could use IoC for do that, **But we recomend it use Singleton pattern**
+
+- Tysringe:
+
+```Typescript
+import {Cron, Interval, ScheduledExecution, SchedulerInstance} from 'scheduler-ts';
+import { singleton } from 'tsyringe';
+
+@singleton()
+@SchedulerInstance()
+export default class Jobs {
+    
+    @Cron("1 * * * * *")
+    sayHello(_execution: ScheduledExecution) {
+        console.log("Hello");
+    }
+
+    @Interval(1000 * 60)
+    sayHola(_execution: ScheduledExecution) {
+        console.log("Hola");
+    }
+
+}
+```
+
+- Tysringe:
+
+```Typescript
+import {Cron, Interval, ScheduledExecution, SchedulerInstance} from 'scheduler-ts';
+import { Injectable, Scope } from '@nestjs/common';
+
+@Injectable({ scope: Scope.DEFAULT })
+@SchedulerInstance()
+export default class Jobs {
+    
+    @Cron("1 * * * * *")
+    sayHello(_execution: ScheduledExecution) {
+        console.log("Hello");
+    }
+
+    @Interval(1000 * 60)
+    sayHola(_execution: ScheduledExecution) {
+        console.log("Hola");
+    }
+
+}
 ```
 
 ### Scheduler - the main object

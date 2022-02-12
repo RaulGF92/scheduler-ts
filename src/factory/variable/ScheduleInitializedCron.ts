@@ -1,8 +1,8 @@
-import ScheduleStatic from './ScheduleStatic';
-import * as cron from 'node-cron';
 import { annotationsType, ScheduledCronConfig, ScheduledExecution } from '../../types';
+import ScheduleInitialized from './ScheduleInitialized';
+import * as cron from 'node-cron';
 
-export default class ScheduleStaticCron extends ScheduleStatic {
+export default class ScheduleInitializedCron extends ScheduleInitialized {
     private task: cron.ScheduledTask;
     constructor(
         readonly functionMetadata: {
@@ -14,7 +14,7 @@ export default class ScheduleStaticCron extends ScheduleStatic {
     ) {
         super(annotationsType.CRON, functionMetadata, config);
 
-        this.task = cron.schedule(config.cron, () => this.executeFunction(), {
+        this.task = cron.schedule(config.cron, () => super.executeFunction(), {
             scheduled: false,
         });
     }

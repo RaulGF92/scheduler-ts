@@ -1,8 +1,9 @@
 import { ScheduledConfig, ScheduledExecution } from '../..';
 import ScheduleImpl from '../ScheduleImpl';
 import { annotationsType, invokationType } from '../../types';
+import SchedulerFactory from '../SchedulerFactory';
 
-export default abstract class ScheduleStatic extends ScheduleImpl {
+export default abstract class ScheduleInitialized extends ScheduleImpl {
     constructor(
         readonly type: annotationsType,
         readonly functionMetadata: {
@@ -12,12 +13,20 @@ export default abstract class ScheduleStatic extends ScheduleImpl {
         },
         readonly config: ScheduledConfig,
     ) {
-        super(type, functionMetadata, config, invokationType.STATIC);
+        super(type, functionMetadata, config, invokationType.INITIALIZED);
+    }
+
+    public static buildADN(type: annotationsType, propertyKey: string, jobName: string) {
+        return `${type}_${propertyKey}_${jobName}`.toLocaleUpperCase();
     }
 
     async executeJob(): Promise<void> {
-        const { target, propertyKey } = this.functionMetadata;
-        await target[propertyKey](super.buildScheduledExecution());
+        const eventName = ScheduleInitialized.buildADN(
+            this.type,
+            this.functionMetadata.propertyKey,
+            this.config.name || 'EMPTY',
+        );
+        SchedulerFactory.emitter.emit(eventName, super.buildScheduledExecution());
     }
 
     abstract fillExecutionInfo(executionInfo: ScheduledExecution): ScheduledExecution;
