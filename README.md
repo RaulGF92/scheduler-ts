@@ -127,7 +127,7 @@ export default class Jobs {
 }
 ```
 
-- Tysringe:
+- Nest.js:
 
 ```Typescript
 import {Cron, Interval, ScheduledExecution, SchedulerInstance} from 'scheduler-ts';
