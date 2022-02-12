@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import SchedulerFactory from './factory/SchedulerFactory';
 import Scheduler from './Scheduler';
 import { ScheduledCronConfig } from '.';
+import ScheduleInitialized from './factory/variable/ScheduleInitialized';
 
 export const SCHEDULES_METADATA_KEY = '__schedulers__';
 export const DECORATORS_METADATA_KEY = '__decorators__';
@@ -49,7 +50,7 @@ const handleNonStaticFunction = (
     }
 
     if (!schedules[functionMetadata.propertyKey]) {
-        schedules[functionMetadata.propertyKey] = {};
+        schedules[functionMetadata.propertyKey] = { name: functionMetadata.propertyKey };
     }
 
     decorators[functionMetadata.propertyKey].push(type.toString());
@@ -88,6 +89,40 @@ const createNewScheduleAnnotation = function (
 };
 
 // Annotations
+
+export function SchedulerInstance() {
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    return function _DecoratorName<T extends { new (...args: any[]): {} }>(constr: T) {
+        return class extends constr {
+            constructor(...args: any[]) {
+                super(...args);
+                const schedules = Reflect.get(this, SCHEDULES_METADATA_KEY);
+
+                const jobToStart: { propertyKey: string; annotation: string; scheduleName: string }[] = [];
+                Object.values(schedules).forEach((method: any) => {
+                    Object.values(method)
+                        .filter((item) => typeof item == 'object')
+                        .forEach((annotation: any) => {
+                            jobToStart.push({
+                                propertyKey: method.name,
+                                annotation: annotation.name,
+                                scheduleName: annotation.name,
+                            });
+                        });
+                });
+
+                jobToStart.forEach((job) => {
+                    const adn = ScheduleInitialized.buildADN(
+                        job.annotation as annotationsType,
+                        job.propertyKey,
+                        job.scheduleName,
+                    );
+                    SchedulerFactory.emitter.on(adn, (executionInfo) => (<any>this)[job.propertyKey](executionInfo));
+                });
+            }
+        };
+    };
+}
 
 export function Cron(config: string | ScheduledCronConfig) {
     const type = annotationsType.CRON;

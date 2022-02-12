@@ -16,20 +16,16 @@ export default abstract class ScheduleInitialized extends ScheduleImpl {
         super(type, functionMetadata, config, invokationType.INITIALIZED);
     }
 
-    public static buildADN(
-        type: annotationsType,
-        functionMetadata: {
-            target: unknown;
-            propertyKey: string;
-            descriptor: TypedPropertyDescriptor<(execution: ScheduledExecution) => void>;
-        },
-        config: ScheduledConfig,
-    ) {
-        return `${type}_${functionMetadata.propertyKey}_${config.name}`.toLocaleUpperCase();
+    public static buildADN(type: annotationsType, propertyKey: string, jobName: string) {
+        return `${type}_${propertyKey}_${jobName}`.toLocaleUpperCase();
     }
 
     async executeJob(): Promise<void> {
-        const eventName = ScheduleInitialized.buildADN(this.type, this.functionMetadata, this.config);
+        const eventName = ScheduleInitialized.buildADN(
+            this.type,
+            this.functionMetadata.propertyKey,
+            this.config.name || 'EMPTY',
+        );
         SchedulerFactory.emitter.emit(eventName, super.buildScheduledExecution());
     }
 
