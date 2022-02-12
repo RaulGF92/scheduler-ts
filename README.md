@@ -150,6 +150,29 @@ export default class Jobs {
 }
 ```
 
+- typedi: (All components are singletons)
+
+```Typescript
+import {Cron, Interval, ScheduledExecution, SchedulerInstance} from 'scheduler-ts';
+import { Service } from 'typedi';
+
+@Service()
+@SchedulerInstance()
+export default class Jobs {
+    
+    @Cron("1 * * * * *")
+    sayHello(_execution: ScheduledExecution) {
+        console.log("Hello");
+    }
+
+    @Interval(1000 * 60)
+    sayHola(_execution: ScheduledExecution) {
+        console.log("Hola");
+    }
+
+}
+```
+
 ### Scheduler - the main object
 
 Scheduler is a main class where you could setting the whole jobs in here you could start all, stop all, stop one task....
