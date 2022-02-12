@@ -1,11 +1,8 @@
 import { ScheduledConfig, ScheduledExecution } from '../..';
-import { Schedule } from '../../';
-import { annotationsType, scheduleState, invokationType } from '../../types';
+import ScheduleImpl from '../ScheduleImpl';
+import { annotationsType, invokationType } from '../../types';
 
-export default abstract class ScheduleStatic implements Schedule {
-    state: scheduleState = scheduleState.STOP;
-    readonly invokationType: invokationType = invokationType.STATIC;
-
+export default abstract class ScheduleStatic extends ScheduleImpl {
     constructor(
         readonly type: annotationsType,
         readonly functionMetadata: {
@@ -14,30 +11,16 @@ export default abstract class ScheduleStatic implements Schedule {
             descriptor: TypedPropertyDescriptor<(execution: ScheduledExecution) => void>;
         },
         readonly config: ScheduledConfig,
-    ) {}
-
-    buildScheduledExecution(): ScheduledExecution {
-        return this.fillExecutionInfo(<ScheduledExecution>{
-            startDate: new Date(),
-            name: this.config.name,
-            type: this.type,
-            invokationType: this.invokationType,
-        });
+    ) {
+        super(type, functionMetadata, config, invokationType.STATIC);
     }
 
-    async executeFunction(): Promise<void> {
+    async executeJob(): Promise<void> {
         const { target, propertyKey } = this.functionMetadata;
-        this.state = scheduleState.RUNNING;
-        try {
-            await target[propertyKey](this.buildScheduledExecution());
-        } catch (error) {
-            console.trace(error);
-        } finally {
-            this.state = scheduleState.START;
-        }
+        await target[propertyKey](super.buildScheduledExecution());
     }
 
     abstract fillExecutionInfo(executionInfo: ScheduledExecution): ScheduledExecution;
-    abstract start(): Promise<void>;
-    abstract stop(): Promise<void>;
+    abstract startJob(): Promise<void>;
+    abstract stopJob(): Promise<void>;
 }

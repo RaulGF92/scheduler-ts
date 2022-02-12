@@ -54,7 +54,7 @@ export default class Scheduler {
 
         if (item) {
             item.stop();
-            instance.items[name] = <any>null; // force garbage collector
+            instance.items[name] = <never>null; // force garbage collector
             delete instance.items[name];
         }
     }
@@ -65,7 +65,7 @@ export default class Scheduler {
             const item = this.get(key);
             if (item) {
                 item.stop();
-                instance.items[name] = <any>null; // force garbage collector
+                instance.items[name] = <never>null; // force garbage collector
                 delete instance.items[name];
             }
         });

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { annotationsType, ScheduledConfig, ScheduledExecution, ScheduleIntervalConfig } from './types';
 import Utils from './Utils';
 import { v4 as uuidv4 } from 'uuid';
@@ -38,7 +39,7 @@ const handleNonStaticFunction = (
     config: ScheduledConfig,
 ) => {
     const decorators: Record<string, string[]> = Reflect.get(functionMetadata.target, SCHEDULES_METADATA_KEY) || {};
-    const schedules: Record<string, Record<string, any>> = Reflect.get(
+    const schedules: Record<string, Record<string, unknown>> = Reflect.get(
         functionMetadata.target,
         DECORATORS_METADATA_KEY,
     ) || {};
@@ -56,6 +57,10 @@ const handleNonStaticFunction = (
 
     Reflect.set(functionMetadata.target, SCHEDULES_METADATA_KEY, schedules);
     Reflect.set(functionMetadata.target, DECORATORS_METADATA_KEY, decorators);
+
+    const schedule = SchedulerFactory.getVariableSchedule(type, functionMetadata, config);
+    Scheduler.add(schedule);
+    Scheduler.start(<string>schedule.config.name);
 };
 
 const createNewScheduleAnnotation = function (

@@ -27,10 +27,10 @@ test('it should invoke a static method', async () => {
             super(annotationsType.CRON, functionMetadata, config);
         }
 
-        start(): Promise<void> {
+        startJob(): Promise<void> {
             throw new Error('Method not implemented.');
         }
-        stop(): Promise<void> {
+        stopJob(): Promise<void> {
             throw new Error('Method not implemented.');
         }
 

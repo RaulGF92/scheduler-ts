@@ -7,6 +7,7 @@ const sandbox = sinon.createSandbox();
 
 beforeEach(function () {
     sandbox.spy(SchedulerFactory, 'getStaticSchedule');
+    sandbox.spy(SchedulerFactory, 'getVariableSchedule');
 });
 
 afterEach(function () {
@@ -73,6 +74,7 @@ test('if annotation is bind to static method annotation will invoke to getStatic
     }
     expect(TestStatic).not.toBeNull();
     expect((<any>SchedulerFactory.getStaticSchedule).calledOnce).toBeTruthy();
+    expect((<any>SchedulerFactory.getVariableSchedule).calledOnce).not.toBeTruthy();
 });
 
 test('if annotation is bind to non static method annotation will invoke to SchedulerFactory', () => {
@@ -90,7 +92,7 @@ test('if annotation is bind to non static method annotation will invoke to Sched
     }
     expect(TestNoNStatic).not.toBeNull();
     expect((<any>SchedulerFactory.getStaticSchedule).calledOnce).not.toBeTruthy();
-    expect((<any>SchedulerFactory.getVariableSchedule).calledOnce).not.toBeTruthy();
+    expect((<any>SchedulerFactory.getVariableSchedule).calledOnce).toBeTruthy();
 });
 
 test(`if annotation is bind to non static method methods will have metadata variable in ${DECORATORS_METADATA_KEY} & ${SCHEDULES_METADATA_KEY}`, () => {
