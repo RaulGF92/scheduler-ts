@@ -118,6 +118,7 @@ test(`if annotation is bind to non static method methods will have metadata vari
     expect(instance[DECORATORS_METADATA_KEY]).toEqual({ entrypoint: ['VOID'] });
     expect(instance[SCHEDULES_METADATA_KEY]).toEqual({
         entrypoint: {
+            name: 'entrypoint',
             VOID: {
                 name: 'VOID',
                 config: {

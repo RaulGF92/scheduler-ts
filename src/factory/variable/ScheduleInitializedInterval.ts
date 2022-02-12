@@ -1,6 +1,5 @@
 import { annotationsType, ScheduleIntervalConfig, ScheduledExecution } from '../../types';
 import ScheduleInitialized from './ScheduleInitialized';
-import * as cron from 'node-cron';
 
 export default class ScheduleInitializedInterval extends ScheduleInitialized {
     intervalObj: NodeJS.Timer | undefined;
@@ -13,10 +12,6 @@ export default class ScheduleInitializedInterval extends ScheduleInitialized {
         readonly config: ScheduleIntervalConfig,
     ) {
         super(annotationsType.INTERVAL, functionMetadata, config);
-
-        this.task = cron.schedule(config.cron, () => super.executeFunction(), {
-            scheduled: false,
-        });
     }
 
     fillExecutionInfo(executionInfo: ScheduledExecution): ScheduledExecution {
