@@ -1,6 +1,5 @@
-import Scheduler from "./Scheduler";
+import Scheduler from './Scheduler';
 
-export * from "./types";
+export * from './types';
 export default Scheduler;
-export { Cron, Interval } from "./annotations";
-
+export { Cron, Interval } from './annotations';

@@ -1,5 +1,5 @@
-import Scheduler from "../../src/Scheduler";
-import { Schedule } from "../../src/types";
+import Scheduler from '../../src/Scheduler';
+import { Schedule } from '../../src/types';
 
 test('scheduler must be an singleton pattern', () => {
     const instance1 = Scheduler.instance();
@@ -8,24 +8,23 @@ test('scheduler must be an singleton pattern', () => {
 });
 
 test('scheduler must add and get schedule items', () => {
-    const schedule = <Schedule> {
+    const schedule = <Schedule>{
         config: {
-            name: 'a'
+            name: 'a',
         },
-        functionMetadata: {}
-    }
+        functionMetadata: {},
+    };
     Scheduler.add(schedule);
     expect(Scheduler.get('a')).toEqual(schedule);
 });
 
 test('scheduler must throw an Error when two items has the same name', () => {
-    const schedule = <Schedule> {
+    const schedule = <Schedule>{
         config: {
-            name: 'b'
+            name: 'b',
         },
-        functionMetadata: {}
-    }
+        functionMetadata: {},
+    };
     Scheduler.add(schedule);
-    expect(() => Scheduler.add(schedule))
-    .toThrow()
+    expect(() => Scheduler.add(schedule)).toThrow();
 });

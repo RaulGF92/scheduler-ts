@@ -14,7 +14,7 @@
     "test": "jest",
     "build": "tsc",
     "prepack": "npm run build",
-    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix"
+    "lint": "eslint src/**/*.ts test/**/*.ts --quiet --fix"
   },
   "author": "",
   "license": "ISC",
@@ -46,7 +46,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts,tsx}": [
+    "*.ts": [
       "eslint --fix"
     ]
   }
