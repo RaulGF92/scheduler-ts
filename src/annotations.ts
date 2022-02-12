@@ -39,10 +39,10 @@ const handleNonStaticFunction = (
     },
     config: ScheduledConfig,
 ) => {
-    const decorators: Record<string, string[]> = Reflect.get(functionMetadata.target, SCHEDULES_METADATA_KEY) || {};
+    const decorators: Record<string, string[]> = Reflect.get(functionMetadata.target, DECORATORS_METADATA_KEY) || {};
     const schedules: Record<string, Record<string, unknown>> = Reflect.get(
         functionMetadata.target,
-        DECORATORS_METADATA_KEY,
+        SCHEDULES_METADATA_KEY,
     ) || {};
 
     if (!decorators[functionMetadata.propertyKey]) {
@@ -106,7 +106,7 @@ export function SchedulerInstance() {
                             jobToStart.push({
                                 propertyKey: method.name,
                                 annotation: annotation.name,
-                                scheduleName: annotation.name,
+                                scheduleName: annotation.config.name,
                             });
                         });
                 });
@@ -117,7 +117,9 @@ export function SchedulerInstance() {
                         job.propertyKey,
                         job.scheduleName,
                     );
-                    SchedulerFactory.emitter.on(adn, (executionInfo) => (<any>this)[job.propertyKey](executionInfo));
+                    SchedulerFactory.emitter.on(adn, (executionInfo) => {
+                        (<any>this)[job.propertyKey](executionInfo);
+                    });
                 });
             }
         };

@@ -20,7 +20,7 @@ The objective of scheduler in has the control of all internal jobs of a applicat
 Using npm:
 
 ```bash
-npm install @raulgf92/scheduler-ts
+npm install scheduler-ts
 ```
 
 ## Usage

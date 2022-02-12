@@ -1,6 +1,6 @@
 {
   "name": "scheduler-ts",
-  "version": "0.2.0-alpha.1",
+  "version": "0.2.0-alpha.7",
   "description": "Agnostic Framework scheduler for Typescript using decorators",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -14,7 +14,8 @@
     "test": "jest",
     "build": "tsc",
     "prepack": "npm run build",
-    "lint": "eslint src/**/*.ts test/**/*.ts --quiet --fix"
+    "lint": "eslint src/**/*.ts test/**/*.ts --quiet --fix",
+    "publish-beta": "npm publish --tag beta"
   },
   "author": "",
   "license": "ISC",
