@@ -1,6 +1,6 @@
 {
   "name": "scheduler-ts",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Agnostic Framework scheduler for Typescript using decorators",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
