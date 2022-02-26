@@ -14,7 +14,7 @@ export default class ScheduleStaticCron extends ScheduleStatic {
     ) {
         super(annotationsType.CRON, functionMetadata, config);
 
-        this.task = cron.schedule(config.cron, () => this.executeFunction(), this.config);
+        this.task = cron.schedule(config.cron, () => this.executeFunction(), { ...this.config, scheduled: false });
     }
 
     fillExecutionInfo(executionInfo: ScheduledExecution): ScheduledExecution {
