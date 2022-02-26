@@ -1,3 +1,5 @@
+import { ScheduleOptions } from 'node-cron';
+
 export enum invokationType {
     STATIC,
     INITIALIZED,
@@ -20,7 +22,7 @@ export interface ScheduledConfig {
     name?: string;
 }
 
-export interface ScheduledCronConfig extends ScheduledConfig {
+export interface ScheduledCronConfig extends ScheduledConfig, ScheduleOptions {
     cron: string;
 }
 
