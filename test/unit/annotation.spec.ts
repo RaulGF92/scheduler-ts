@@ -1,7 +1,7 @@
 import { default as sinon } from 'ts-sinon';
 import SchedulerFactory from '../../src/factory/SchedulerFactory';
 import { ScheduledExecution } from '../../src';
-import { DECORATORS_METADATA_KEY, SCHEDULES_METADATA_KEY, Void } from '../../src/annotations';
+import { Cron, DECORATORS_METADATA_KEY, SCHEDULES_METADATA_KEY, Void } from '../../src/annotations';
 
 const sandbox = sinon.createSandbox();
 
@@ -110,6 +110,13 @@ test(`if annotation is bind to non static method methods will have metadata vari
             expect(execution.name).not.toBeNull();
             expect(execution.startDate).not.toBeNull();
         }
+
+        @Cron({
+            name: 'my-cron',
+            timezone: 'America/Sao_Paulo',
+            cron: '* 1 * * * *',
+        })
+        sayHello() {}
     }
     expect(TestNoNStatic).not.toBeNull();
     const instance: any = new TestNoNStatic();

@@ -14,9 +14,7 @@ export default class ScheduleInitializedCron extends ScheduleInitialized {
     ) {
         super(annotationsType.CRON, functionMetadata, config);
 
-        this.task = cron.schedule(config.cron, () => super.executeFunction(), {
-            scheduled: false,
-        });
+        this.task = cron.schedule(config.cron, () => super.executeFunction(), { ...this.config, scheduled: false });
     }
 
     fillExecutionInfo(executionInfo: ScheduledExecution): ScheduledExecution {

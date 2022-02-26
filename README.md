@@ -173,6 +173,30 @@ export default class Jobs {
 }
 ```
 
+## settings
+
+### Cron
+You could setting your cron with differents settings like in node-cron, in your annotations cron settings:
+
+```Typescript
+import {Cron, Interval, ScheduledExecution, SchedulerInstance} from 'scheduler-ts';
+import { Service } from 'typedi';
+
+@Service()
+@SchedulerInstance()
+export default class Jobs {
+    
+    @Cron({
+        name: 'my-cron',
+        timezone: 'America/Sao_Paulo',
+        cron: '* 1 * * * *',
+    })
+    sayHello(_execution: ScheduledExecution) {
+        console.log("Hello");
+    }
+}
+```
+
 ### Scheduler - the main object
 
 Scheduler is a main class where you could setting the whole jobs in here you could start all, stop all, stop one task....
